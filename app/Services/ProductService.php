@@ -25,4 +25,11 @@ class ProductService
     {
         return (int) $product->warehouseStock()->sum('threshold');
     }
+
+    public function immediateDespatch(Product $product): int
+    {
+        return (int) $product->warehouseStock()
+            ->selectRaw('COALESCE(SUM(quantity - threshold), 0) as total')
+            ->value('total');
+    }
 }

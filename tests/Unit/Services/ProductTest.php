@@ -92,4 +92,23 @@ test('total threshold is sum of all thresholds across warehouse locations', func
 });
 
 test('immediate despatch is sum of quantity minus total threshold', function (): void {
-})->skip();
+    $product = Product::factory()->create();
+    $warehouse1 = Warehouse::factory()->create();
+    $warehouse2 = Warehouse::factory()->create();
+    WarehouseStock::create([
+        'warehouse_uuid' => $warehouse1->uuid,
+        'product_uuid' => $product->uuid,
+        'quantity' => 100,
+        'threshold' => 10,
+    ]);
+    WarehouseStock::create([
+        'warehouse_uuid' => $warehouse2->uuid,
+        'product_uuid' => $product->uuid,
+        'quantity' => 20,
+        'threshold' => 25,
+    ]);
+
+    $service = new ProductService;
+
+    expect($service->immediateDespatch($product))->toBe(85);
+});
