@@ -29,7 +29,7 @@ class ProductService
     public function immediateDespatch(Product $product): int
     {
         return (int) $product->warehouseStock()
-            ->selectRaw('COALESCE(SUM(quantity - threshold), 0) as total')
+            ->selectRaw('COALESCE(SUM(GREATEST(0, CAST(quantity AS SIGNED) - CAST(threshold AS SIGNED))), 0) as total')
             ->value('total');
     }
 }
