@@ -7,6 +7,9 @@ use Inertia\Inertia;
 
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
 
+Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

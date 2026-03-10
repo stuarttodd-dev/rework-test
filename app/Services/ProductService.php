@@ -28,8 +28,9 @@ class ProductService
 
     public function immediateDespatch(Product $product): int
     {
-        return (int) $product->warehouseStock()
-            ->selectRaw('COALESCE(SUM(GREATEST(0, CAST(quantity AS SIGNED) - CAST(threshold AS SIGNED))), 0) as total')
-            ->value('total');
+        $totalQuantity = (int) $product->warehouseStock()->sum('quantity');
+        $totalThreshold = $this->totalThreshold($product);
+
+        return max(0, $totalQuantity - $totalThreshold);
     }
 }

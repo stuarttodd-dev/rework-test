@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     products: {
@@ -13,6 +13,9 @@ defineProps({
     <Head title="Products" />
     <div class="py-6 px-4">
         <h1 class="text-xl font-semibold mb-4">Products</h1>
+        <p class="mb-4">
+            <Link :href="route('orders.create')">Create order</Link>
+        </p>
         <div class="overflow-x-auto">
             <table class="min-w-full border border-gray-300">
                 <thead>
