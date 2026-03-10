@@ -24,6 +24,7 @@ class StoreOrderRequest extends FormRequest
                 'integer',
                 'min:1',
                 function (string $attribute, int $value, \Closure $fail): void {
+                    unset($attribute);
                     $product = Product::find($this->input('product_uuid'));
                     if (! $product) {
                         return;

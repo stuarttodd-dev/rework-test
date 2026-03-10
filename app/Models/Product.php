@@ -31,7 +31,14 @@ class Product extends Model
 
     public function warehouses(): BelongsToMany
     {
-        return $this->belongsToMany(Warehouse::class, 'warehouse_stock', 'product_uuid', 'warehouse_uuid', 'uuid', 'uuid')
+        return $this->belongsToMany(
+            Warehouse::class,
+            'warehouse_stock',
+            'product_uuid',
+            'warehouse_uuid',
+            'uuid',
+            'uuid'
+        )
             ->withPivot(['quantity', 'threshold'])
             ->withTimestamps();
     }

@@ -11,7 +11,8 @@ class ProductController extends Controller
 {
     public function __construct(
         private ProductService $productService
-    ) {}
+    ) {
+    }
 
     public function index(): Response
     {

@@ -117,4 +117,3 @@ test('store deducts quantity from warehouse with most stock', function (): void 
     expect($stockA->quantity)->toBe(7)
         ->and($stockB->quantity)->toBe(5);
 });
-

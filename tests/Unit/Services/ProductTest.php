@@ -34,7 +34,7 @@ test('allocated to orders returns sum of order item quantity where order is not 
         'total' => 50,
     ]);
 
-    $service = new ProductService;
+    $service = new ProductService();
 
     expect($service->allocatedToOrders($product))->toBe(5);
 });
@@ -64,7 +64,7 @@ test('physical quantity is sum of warehouse stock quantity plus allocated to ord
         'total' => 70,
     ]);
 
-    $service = new ProductService;
+    $service = new ProductService();
 
     expect($service->physicalQuantity($product))->toBe(157);
 });
@@ -86,7 +86,7 @@ test('total threshold is sum of all thresholds across warehouse locations', func
         'threshold' => 15,
     ]);
 
-    $service = new ProductService;
+    $service = new ProductService();
 
     expect($service->totalThreshold($product))->toBe(35);
 });
@@ -108,7 +108,7 @@ test('immediate despatch is sum of quantity minus total threshold', function ():
         'threshold' => 25,
     ]);
 
-    $service = new ProductService;
+    $service = new ProductService();
 
     expect($service->immediateDespatch($product))->toBe(85);
 });
