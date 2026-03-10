@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-});
+Route::get('/', [ProductController::class, 'index'])->name('products.index');
 
 Route::middleware([
     'auth:sanctum',
