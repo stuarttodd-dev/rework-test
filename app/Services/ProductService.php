@@ -20,4 +20,9 @@ class ProductService
 
         return $warehouseQuantity + $this->allocatedToOrders($product);
     }
+
+    public function totalThreshold(Product $product): int
+    {
+        return (int) $product->warehouseStock()->sum('threshold');
+    }
 }

@@ -70,7 +70,26 @@ test('physical quantity is sum of warehouse stock quantity plus allocated to ord
 });
 
 test('total threshold is sum of all thresholds across warehouse locations', function (): void {
-})->skip();
+    $product = Product::factory()->create();
+    $warehouse1 = Warehouse::factory()->create();
+    $warehouse2 = Warehouse::factory()->create();
+    WarehouseStock::create([
+        'warehouse_uuid' => $warehouse1->uuid,
+        'product_uuid' => $product->uuid,
+        'quantity' => 100,
+        'threshold' => 20,
+    ]);
+    WarehouseStock::create([
+        'warehouse_uuid' => $warehouse2->uuid,
+        'product_uuid' => $product->uuid,
+        'quantity' => 30,
+        'threshold' => 15,
+    ]);
+
+    $service = new ProductService;
+
+    expect($service->totalThreshold($product))->toBe(35);
+});
 
 test('immediate despatch is sum of quantity minus total threshold', function (): void {
 })->skip();
