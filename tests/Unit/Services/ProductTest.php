@@ -2,6 +2,8 @@
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Warehouse;
+use App\Models\WarehouseStock;
 use App\Services\ProductService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -38,7 +40,34 @@ test('allocated to orders returns sum of order item quantity where order is not 
 });
 
 test('physical quantity is sum of warehouse stock quantity plus allocated to orders', function (): void {
-})->skip();
+    $product = Product::factory()->create();
+    $warehouse1 = Warehouse::factory()->create();
+    $warehouse2 = Warehouse::factory()->create();
+    WarehouseStock::create([
+        'warehouse_uuid' => $warehouse1->uuid,
+        'product_uuid' => $product->uuid,
+        'quantity' => 100,
+        'threshold' => 10,
+    ]);
+    WarehouseStock::create([
+        'warehouse_uuid' => $warehouse2->uuid,
+        'product_uuid' => $product->uuid,
+        'quantity' => 50,
+        'threshold' => 5,
+    ]);
+
+    $orderPlaced = Order::factory()->placed()->create();
+    $product->orderItems()->create([
+        'order_uuid' => $orderPlaced->uuid,
+        'price' => 10,
+        'quantity' => 7,
+        'total' => 70,
+    ]);
+
+    $service = new ProductService;
+
+    expect($service->physicalQuantity($product))->toBe(157);
+});
 
 test('total threshold is sum of all thresholds across warehouse locations', function (): void {
 })->skip();

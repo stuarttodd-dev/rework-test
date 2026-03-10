@@ -13,4 +13,11 @@ class ProductService
             ->whereHas('order', fn ($q) => $q->where('order_status', '!=', OrderStatus::Dispatched))
             ->sum('quantity');
     }
+
+    public function physicalQuantity(Product $product): int
+    {
+        $warehouseQuantity = (int) $product->warehouseStock()->sum('quantity');
+
+        return $warehouseQuantity + $this->allocatedToOrders($product);
+    }
 }
